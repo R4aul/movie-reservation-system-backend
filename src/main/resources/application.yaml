@@ -1,3 +1,5 @@
 spring:
   application:
     name: movie-reservation-system-backend
+  profiles:
+      active: dev
