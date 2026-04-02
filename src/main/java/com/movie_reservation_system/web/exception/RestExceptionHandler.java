@@ -1,5 +1,6 @@
 package com.movie_reservation_system.web.exception;
 
+import com.movie_reservation_system.domain.exception.AlreadyExistsException;
 import com.movie_reservation_system.domain.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,11 @@ public class RestExceptionHandler {
     public ResponseEntity<Error> handleException(NotFoundException exception){
         Error error = new Error("not-found", exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<Error> handleException(AlreadyExistsException exception){
+        Error error = new Error("already-exists", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 }
