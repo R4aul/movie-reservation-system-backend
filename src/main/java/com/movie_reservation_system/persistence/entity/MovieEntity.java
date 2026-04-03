@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -32,4 +33,7 @@ public class MovieEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "genre_id", nullable = false)
     private  GenreEntity genre;
+
+    @OneToMany(mappedBy = "movie")
+    private List<ShowtimeEntity> showtimes;
 }
