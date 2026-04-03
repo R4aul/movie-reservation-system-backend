@@ -2,20 +2,26 @@ package com.movie_reservation_system.persistence;
 
 import com.movie_reservation_system.domain.dto.CreateMovieRequest;
 import com.movie_reservation_system.domain.dto.Movie;
+import com.movie_reservation_system.domain.dto.MovieShowTimes;
 import com.movie_reservation_system.domain.dto.UpdateMovieRequest;
 import com.movie_reservation_system.domain.exception.NotFoundException;
 import com.movie_reservation_system.domain.repository.MovieRepository;
 import com.movie_reservation_system.persistence.entity.GenreEntity;
 import com.movie_reservation_system.persistence.entity.MovieEntity;
+import com.movie_reservation_system.persistence.entity.ShowtimeEntity;
 import com.movie_reservation_system.persistence.mapper.MovieMapper;
 import com.movie_reservation_system.persistence.repository.GenreListCrudRepository;
 import com.movie_reservation_system.persistence.repository.MovieListCrudRepository;
 import com.movie_reservation_system.persistence.repository.MoviePagSortRepository;
+import com.movie_reservation_system.persistence.repository.ShowTimeListCrudRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,6 +31,7 @@ public class MovieEntityRepository implements MovieRepository {
     private final MoviePagSortRepository pagSortRepository;
     private final MovieMapper mapper;
     private final GenreListCrudRepository genreListCrudRepository;
+    private final ShowTimeListCrudRepository showTimeListCrudRepository;
 
     @Override
     public Page<Movie> all(int page, int elements) {
@@ -81,4 +88,17 @@ public class MovieEntityRepository implements MovieRepository {
         this.listCrudRepository.deleteById(id);
         return true;
     }
+
+    @Override
+    public MovieShowTimes showTimes(long id) {
+        MovieEntity movie = this.listCrudRepository.findById(id)
+                .orElseThrow(()-> new NotFoundException("Movie Not Found"));
+
+        List<ShowtimeEntity> showtimeEntities = this.showTimeListCrudRepository.findByMovieAndStartTimeAfter(movie, LocalDateTime.now());
+
+        movie.setShowtimes(showtimeEntities);
+
+        return this.mapper.toDTOMovieShowTimes(movie);
+    }
+
 }

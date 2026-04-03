@@ -2,6 +2,7 @@ package com.movie_reservation_system.web.controller;
 
 import com.movie_reservation_system.domain.dto.CreateMovieRequest;
 import com.movie_reservation_system.domain.dto.Movie;
+import com.movie_reservation_system.domain.dto.MovieShowTimes;
 import com.movie_reservation_system.domain.dto.UpdateMovieRequest;
 import com.movie_reservation_system.domain.service.MovieService;
 import jakarta.validation.Valid;
@@ -47,5 +48,10 @@ public class MovieController {
     @DeleteMapping("/{movieId}/delete")
     public ResponseEntity<Boolean> delete(@PathVariable("movieId") int id){
        return ResponseEntity.ok(this.movieService.delete(id));
+    }
+
+    @GetMapping("/{movieId}/showtimes")
+    public ResponseEntity<MovieShowTimes> showTimes(@PathVariable("movieId") long id){
+        return ResponseEntity.ok(this.movieService.showTimes(id));
     }
 }
