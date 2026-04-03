@@ -2,6 +2,7 @@ package com.movie_reservation_system.domain.service;
 
 import com.movie_reservation_system.domain.dto.CreateMovieRequest;
 import com.movie_reservation_system.domain.dto.Movie;
+import com.movie_reservation_system.domain.dto.MovieShowTimes;
 import com.movie_reservation_system.domain.dto.UpdateMovieRequest;
 import com.movie_reservation_system.domain.repository.MovieRepository;
 import lombok.AllArgsConstructor;
@@ -34,5 +35,9 @@ public class MovieService {
 
     public boolean delete(int id){
         return this.movieRepository.delete(id);
+    }
+
+    public MovieShowTimes showTimes(long id){
+        return this.movieRepository.showTimes(id);
     }
 }
