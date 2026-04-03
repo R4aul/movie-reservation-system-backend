@@ -27,4 +27,7 @@ public class RoomEntity {
     @OneToMany(mappedBy = "room")
     @OrderBy("seat_row ASC, seat_number ASC")
     private List<SeatEntity> seats;
+
+    @OneToMany(mappedBy = "room")
+    private List<ShowtimeEntity> showtimes;
 }
