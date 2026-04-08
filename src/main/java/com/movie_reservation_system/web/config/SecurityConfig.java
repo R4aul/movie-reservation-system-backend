@@ -4,6 +4,7 @@ import com.movie_reservation_system.web.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,7 +33,11 @@ public class SecurityConfig {
         http
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> { authorize
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/movies/all").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/movies/{id}/get").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/movies/{movieId}/showtimes").permitAll()
                         .anyRequest().authenticated();
                 })
                 .sessionManagement(session -> {
