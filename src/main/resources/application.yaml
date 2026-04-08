@@ -3,3 +3,6 @@ spring:
     name: movie-reservation-system-backend
   profiles:
       active: dev
+server:
+  servlet:
+    context-path: /api
